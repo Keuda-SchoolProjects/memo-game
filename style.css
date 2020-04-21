@@ -39,10 +39,10 @@ body {
     transition: transform .5s;
 }
 
-.card25 {
+.card24 {
     margin-right: 5px;
     margin-bottom: 5px;
-    width: calc(18% + 10px);
+    width: calc(15% + 10px);
     height: calc(33%);
     position: relative;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
@@ -65,7 +65,7 @@ body {
     transition: transform .5s;
 }
 
-.card16:active, .card25:active, .card36:active {
+.card16:active, .card24:active, .card36:active {
     transform: scale(0.97);
     transition: transform .3s;
 }
