@@ -37,6 +37,12 @@
   selectVolumeHandler = () => {
     gameVolumeSelect.addEventListener('change', () => {
       selectedVolume = gameVolumeSelect.value
+
+      if (selectedVolume == 0) {
+        btnStartGame.disabled = true
+      } else { 
+        btnStartGame.disabled = false
+      }
     })
   }
   selectVolumeHandler()
@@ -54,6 +60,7 @@
    fullResetGame = () => {
     btnStartGame.disabled = false
     gameVolumeSelect.disabled = false
+    gameVolumeSelect.value = 0
     cardsArray.forEach((cardItem) => {
       cardItem.parentNode.removeChild(cardItem)
      })
