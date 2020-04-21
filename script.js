@@ -79,8 +79,8 @@
         card.className = 'card16'
         backImage.style.width = '100%'
         backImage.style.height = '100%'
-      } else if (selectedVolume == 25) {
-        card.className = 'card25'
+      } else if (selectedVolume == 24) {
+        card.className = 'card24'
         backImage.style.width = '100%'
         backImage.style.height = '100%'
       } else if (selectedVolume == 36) {
