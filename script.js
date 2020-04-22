@@ -85,13 +85,13 @@ let gamePics = picsArray.sort(() => {
       backImage.className = 'back-face'   
       frontImageArr.push(frontImage)
       if (selectedVolume == 16) {
-
-        picsArr = gamePics.slice(0, 8)        
-
+        picsArr = gamePics.slice(0, 8)
         card.className = 'card16'
       } else if (selectedVolume == 24) {
+        picsArr = gamePics.slice(0, 12)
         card.className = 'card24'
       } else if (selectedVolume == 36) {
+        picsArr = gamePics.slice(0, 18)
         card.className = 'card36'
       }
       backImage.src = './images/back.jpg'
@@ -101,17 +101,18 @@ let gamePics = picsArray.sort(() => {
       card.appendChild(frontImage) 
       
     }
-
     
-    cardsArray.forEach(item => {
-      console.log(item);
+
+    picsArr = picsArr.concat(picsArr)
+    cardsArray.forEach((item, index) => {  
+      console.log(index);
       
       let imgItem = item.children[1]
-      picsArr.concat(picsArr).forEach(pic => {
-        console.log(pic);
-        
-        imgItem.src = pic.img
-      })
+      imgItem.src = picsArr[index].img
+    })
+
+    cardsArray.sort(() => {
+      return 0.5 - Math.random()
     })
       
       
