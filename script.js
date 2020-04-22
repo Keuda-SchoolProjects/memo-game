@@ -96,30 +96,27 @@ let gamePics = picsArray.sort(() => {
       }
       backImage.src = './images/back.jpg'
       cardsArray.push(card)
-
       card.appendChild(backImage) 
       card.appendChild(frontImage) 
       
     }
     
-
     picsArr = picsArr.concat(picsArr)
-    cardsArray.forEach((item, index) => {  
-      console.log(index);
-      
+    cardsArray.forEach((item, index) => {    
       let imgItem = item.children[1]
       imgItem.src = picsArr[index].img
     })
 
+/////////////////////////// PICTURES SORT ////////////////////////////////////////
     cardsArray.sort(() => {
       return 0.5 - Math.random()
     })
       
-      
+////////////////////////// CARDS ADDING FROM MASSIVE TO GAME WINDOW //////////////      
     cardsArray.forEach((cardItem) => {
          memoryGameWindow.appendChild(cardItem)
         })
-
+////////////////////////////// FLIP CARDS ////////////////////////////////////////
     cardsArray.forEach(card => card.addEventListener('click', flipCard))
 
    }

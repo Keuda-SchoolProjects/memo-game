@@ -9,6 +9,7 @@ body {
     display: grid;
     grid-template-columns: 2fr 10fr;
     background-color: #060AB2;
+    user-select: none;
 }
 
 .gameControlWindow {
