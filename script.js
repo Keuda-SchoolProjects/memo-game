@@ -7,6 +7,8 @@
   const btnResetGame = document.querySelector('.btnResetGame')
   let cardsArray = []
   selectedVolume = 0
+  let picsArr = []
+  let frontImageArr = []
 
   const picsArray = [
     {id: 01, img: './images/pics/01.jpg'},
@@ -29,15 +31,15 @@
     {id: 18, img: './images/pics/18.jpg'},
   ]
 
-  let gamePics = picsArray.concat(picsArray).sort(() => {
-    return 0.5 - Math.random()
-  })
+////////////////////////////// RANDOM PICS ///////////////////////////////////////
+let gamePics = picsArray.sort(() => {
+  return 0.5 - Math.random()
+})
 
-
+///////////////////////////// GAME SELECT CONTROL ////////////////////////////////
   selectVolumeHandler = () => {
     gameVolumeSelect.addEventListener('change', () => {
       selectedVolume = gameVolumeSelect.value
-
       if (selectedVolume == 0) {
         btnStartGame.disabled = true
       } else { 
@@ -47,16 +49,18 @@
   }
   selectVolumeHandler()
   
-  
+////////////////////////// START BUTTON //////////////////////////////////////
    btnStartGame.addEventListener('click', () => {
      startGame() 
    })
 
+////////////////////////// RESET BUTTON //////////////////////////////////////
    btnResetGame.addEventListener('click', () => {
     fullResetGame()
     cardsArray = []
    })
 
+////////////////////////// GAME FULL RESET ///////////////////////////////////
    fullResetGame = () => {
     btnStartGame.disabled = false
     gameVolumeSelect.disabled = false
@@ -66,47 +70,51 @@
      })
      delete cardsArray
     selectedVolume = 0
+    delete picsArr
    }
 
-
+/////////////////////////// GAME START ///////////////////////////////////////
    startGame = () => {
     btnStartGame.disabled = true
-    gameVolumeSelect.disabled = true
+    gameVolumeSelect.disabled = true    
     for (let i = 0; i < selectedVolume; i++) {
       const card = document.createElement('div')
-
       const frontImage = document.createElement('img')
       frontImage.classList = 'front-face'
       const backImage = document.createElement('img')
-      backImage.className = 'back-face'     
-
-      card.appendChild(backImage)
-      card.appendChild(frontImage)
+      backImage.className = 'back-face'   
+      frontImageArr.push(frontImage)
       if (selectedVolume == 16) {
+
+        picsArr = gamePics.slice(0, 8)        
+
         card.className = 'card16'
-        backImage.style.width = '100%'
-        backImage.style.height = '100%'
       } else if (selectedVolume == 24) {
         card.className = 'card24'
-        backImage.style.width = '100%'
-        backImage.style.height = '100%'
       } else if (selectedVolume == 36) {
         card.className = 'card36'
-        backImage.style.width = '100%'
-        backImage.style.height = '100%'
       }
       backImage.src = './images/back.jpg'
-
-      
-      let randomPic = Math.floor(Math.random()*picsArray.length)
-      frontImage.src = gamePics[randomPic].img
-      console.log(frontImage);
-      
-      
       cardsArray.push(card)
+
+      card.appendChild(backImage) 
+      card.appendChild(frontImage) 
+      
     }
 
-
+    
+    cardsArray.forEach(item => {
+      console.log(item);
+      
+      let imgItem = item.children[1]
+      picsArr.concat(picsArr).forEach(pic => {
+        console.log(pic);
+        
+        imgItem.src = pic.img
+      })
+    })
+      
+      
     cardsArray.forEach((cardItem) => {
          memoryGameWindow.appendChild(cardItem)
         })
@@ -115,12 +123,13 @@
 
    }
 
+///////////////////////////// FLIP CARDS FUNCTION //////////////////////////////
    function flipCard() {
      this.classList.toggle('flip')
    }
 
 
-
+   
 
 
  })
