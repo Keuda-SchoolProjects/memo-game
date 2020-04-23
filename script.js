@@ -130,15 +130,15 @@ let gamePics = picsArray.sort(() => {
 
 
       item.addEventListener('click', (e) => {
+        
         if (count < 2) {
           count++
           if (count === 1) {
             firstCard = e.target.nextSibling.dataset.id
-            flipCard(item)
-            console.log(firstCard);
+            console.log('1 element', e.target.parentElement)
           } else { 
             secondCard = e.target.nextSibling.dataset.id
-            console.log(secondCard);
+            console.log('2 element', e.target.parentElement)
           }
 
 
@@ -148,7 +148,6 @@ let gamePics = picsArray.sort(() => {
               console.log('found');
             }
             resetGuesses()
-            removeClassFlip(item)
             
             
           }
@@ -171,20 +170,17 @@ let gamePics = picsArray.sort(() => {
          memoryGameWindow.appendChild(cardItem)
         })
 ////////////////////////////// FLIP CARDS ////////////////////////////////////////
-    // cardsArray.forEach(card => card.addEventListener('click', flipCard))
+    cardsArray.forEach(card => card.addEventListener('click', flipCard))
 
    }
 
 ///////////////////////////// FLIP CARDS FUNCTION //////////////////////////////
-   function flipCard(item) {
-     item.classList.add('flip')
-     console.log(item.classList[1]);
+   function flipCard() {
+     this.classList.add('flip')
+     console.log(this.classList[1]);
      
    }
 
-   function removeClassFlip(item) {
-     item.classList[1].remove('flip')
-   }
    
 
 
