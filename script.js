@@ -12,6 +12,8 @@
   let count = 0
   let firstCard = ''
   let secondCard = ''
+  let divFirstCard = ''
+  let divSecondCard = ''
 
   const picsArray = [
     {id: 01, img: './images/pics/01.jpg'},
@@ -134,11 +136,15 @@ let gamePics = picsArray.sort(() => {
         if (count < 2) {
           count++
           if (count === 1) {
+            divFirstCard = item
             firstCard = e.target.nextSibling.dataset.id
-            console.log('1 element', e.target.parentElement)
-          } else { 
+            console.log(divFirstCard);
+            
+          } else {
+            divSecondCard = item
             secondCard = e.target.nextSibling.dataset.id
-            console.log('2 element', e.target.parentElement)
+            console.log(divSecondCard)
+            
           }
 
 
@@ -146,8 +152,15 @@ let gamePics = picsArray.sort(() => {
           if (firstCard && secondCard) {
             if (firstCard === secondCard) {
               console.log('found');
+              divFirstCard.classList.add('found')
+              divSecondCard.classList.add('found')
             }
             resetGuesses()
+            setTimeout(() => {
+              divFirstCard.classList.remove('flip')
+              divSecondCard.classList.remove('flip')
+            }, 1000)
+            
             
             
           }
@@ -171,6 +184,7 @@ let gamePics = picsArray.sort(() => {
         })
 ////////////////////////////// FLIP CARDS ////////////////////////////////////////
     cardsArray.forEach(card => card.addEventListener('click', flipCard))
+    
 
    }
 
@@ -178,9 +192,11 @@ let gamePics = picsArray.sort(() => {
    function flipCard() {
      this.classList.add('flip')
      console.log(this.classList[1]);
-     
    }
 
+   function removeFlipCardClass() {    
+      this.classList.remove('flip')
+   }
    
 
 

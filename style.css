@@ -60,3 +60,7 @@ body {
 .front-face {
     transform: rotateY(180deg);
 }
+
+.found {
+    transform: rotateY(180deg);
+}
