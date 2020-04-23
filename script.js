@@ -159,10 +159,8 @@ let gamePics = picsArray.sort(() => {
             setTimeout(() => {
               divFirstCard.classList.remove('flip')
               divSecondCard.classList.remove('flip')
-            }, 500)
-            
-            
-            
+            }, 400)
+
           }
         }
       })
@@ -193,11 +191,6 @@ let gamePics = picsArray.sort(() => {
      this.classList.add('flip')
      console.log(this.classList[1]);
    }
-
-   function removeFlipCardClass() {    
-      this.classList.remove('flip')
-   }
-   
 
 
  })
