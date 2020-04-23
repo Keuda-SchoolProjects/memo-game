@@ -9,6 +9,9 @@
   selectedVolume = 0
   let picsArr = []
   let frontImageArr = []
+  let count = 0
+  let firstCard = ''
+  let secondCard = ''
 
   const picsArray = [
     {id: 01, img: './images/pics/01.jpg'},
@@ -69,8 +72,16 @@ let gamePics = picsArray.sort(() => {
       cardItem.parentNode.removeChild(cardItem)
      })
      delete cardsArray
-    selectedVolume = 0
-    delete picsArr
+     selectedVolume = 0
+     delete picsArr
+     resetGuesses()
+   }
+
+
+   resetGuesses = () => {
+     firstCard = ''
+     secondCard = ''
+     count = 0
    }
 
 /////////////////////////// GAME START ///////////////////////////////////////
@@ -102,10 +113,44 @@ let gamePics = picsArray.sort(() => {
     }
     
     picsArr = picsArr.concat(picsArr)
-    cardsArray.forEach((item, index) => {    
-      let imgItem = item.children[1]
-      imgItem.src = picsArr[index].img
+
+    cardsArray.forEach((item, index) => {
+      item.children[1].src = picsArr[index].img
+      item.children[1].dataset.id = picsArr[index].id
+      
+
+
+      item.addEventListener('click', (e) => {
+        if (count < 2) {
+          count++
+          if (count === 1) {
+            firstCard = e.target.nextSibling.dataset.id
+            flipCard(item)
+            console.log(firstCard);
+          } else { 
+            secondCard = e.target.nextSibling.dataset.id
+            console.log(secondCard);
+          }
+
+
+
+          if (firstCard && secondCard) {
+            if (firstCard === secondCard) {
+              console.log('found');
+            }
+            resetGuesses()
+            removeClassFlip(item)
+            
+            
+          }
+        }
+      })
     })
+
+    
+
+
+
 
 /////////////////////////// PICTURES SORT ////////////////////////////////////////
     cardsArray.sort(() => {
@@ -117,16 +162,20 @@ let gamePics = picsArray.sort(() => {
          memoryGameWindow.appendChild(cardItem)
         })
 ////////////////////////////// FLIP CARDS ////////////////////////////////////////
-    cardsArray.forEach(card => card.addEventListener('click', flipCard))
+    // cardsArray.forEach(card => card.addEventListener('click', flipCard))
 
    }
 
 ///////////////////////////// FLIP CARDS FUNCTION //////////////////////////////
-   function flipCard() {
-     this.classList.toggle('flip')
+   function flipCard(item) {
+     item.classList.add('flip')
+     console.log(item.classList[1]);
+     
    }
 
-
+   function removeClassFlip(item) {
+     item.classList[1].remove('flip')
+   }
    
 
 
