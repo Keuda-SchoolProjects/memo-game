@@ -159,7 +159,7 @@ let gamePics = picsArray.sort(() => {
             setTimeout(() => {
               divFirstCard.classList.remove('flip')
               divSecondCard.classList.remove('flip')
-            }, 1000)
+            }, 500)
             
             
             
