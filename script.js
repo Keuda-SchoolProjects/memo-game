@@ -90,20 +90,29 @@ let gamePics = picsArray.sort(() => {
     gameVolumeSelect.disabled = true    
     for (let i = 0; i < selectedVolume; i++) {
       const card = document.createElement('div')
+      card.className = 'card'
       const frontImage = document.createElement('img')
       frontImage.classList = 'front-face'
       const backImage = document.createElement('img')
       backImage.className = 'back-face'   
       frontImageArr.push(frontImage)
+
       if (selectedVolume == 16) {
         picsArr = gamePics.slice(0, 8)
-        card.className = 'card16'
+        card.style.width = 'calc(22% + 10px)'
+        card.style.height = 'calc(24%)'
+        card.style.marginBottom = '5px'
+        memoryGameWindow.style.width = '1000px'
       } else if (selectedVolume == 24) {
         picsArr = gamePics.slice(0, 12)
-        card.className = 'card24'
+        card.style.width = 'calc(16.1%)'
+        card.style.height = 'calc(22%)'
+        memoryGameWindow.style.width = '1200px'
       } else if (selectedVolume == 36) {
         picsArr = gamePics.slice(0, 18)
-        card.className = 'card36'
+        card.style.width = 'calc(15% + 10px)'
+        card.style.height = 'calc(16%)'
+        memoryGameWindow.style.width = '1000px'
       }
       backImage.src = './images/back.jpg'
       cardsArray.push(card)
