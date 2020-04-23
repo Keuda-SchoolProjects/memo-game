@@ -5,6 +5,7 @@
   const gameVolumeSelect = document.getElementById('game')
   const btnStartGame = document.querySelector('.btnStartGame')
   const btnResetGame = document.querySelector('.btnResetGame')
+  const counterRounds = document.querySelector('.counter')
   let cardsArray = []
   selectedVolume = 0
   let picsArr = []
@@ -14,6 +15,7 @@
   let secondCard = ''
   let divFirstCard = ''
   let divSecondCard = ''
+  let counter = 0
 
   const picsArray = [
     {id: 01, img: './images/pics/01.jpg'},
@@ -77,6 +79,8 @@ let gamePics = picsArray.sort(() => {
      selectedVolume = 0
      delete picsArr
      resetGuesses()
+     counter = 0
+     counterRounds.innerHTML = `Your rounds: ${counter}`
    }
 
 
@@ -129,25 +133,16 @@ let gamePics = picsArray.sort(() => {
       item.children[1].src = picsArr[index].img
       item.children[1].dataset.id = picsArr[index].id
       
-
-
-      item.addEventListener('click', (e) => {
-        
+      item.addEventListener('click', (e) => {       
         if (count < 2) {
           count++
           if (count === 1) {
             divFirstCard = item
-            firstCard = e.target.nextSibling.dataset.id
-            console.log(divFirstCard);
-            
+            firstCard = e.target.nextSibling.dataset.id           
           } else {
             divSecondCard = item
             secondCard = e.target.nextSibling.dataset.id
-            console.log(divSecondCard)
-            
           }
-
-
 
           if (firstCard && secondCard) {
             if (firstCard === secondCard) {
@@ -156,6 +151,9 @@ let gamePics = picsArray.sort(() => {
               divSecondCard.classList.add('found')
             }
             resetGuesses()
+            counter++
+            counterRounds.innerHTML = `Your rounds: ${counter}`
+
             setTimeout(() => {
               divFirstCard.classList.remove('flip')
               divSecondCard.classList.remove('flip')
@@ -165,10 +163,6 @@ let gamePics = picsArray.sort(() => {
         }
       })
     })
-
-    
-
-
 
 
 /////////////////////////// PICTURES SORT ////////////////////////////////////////
