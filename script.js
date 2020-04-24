@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
               divFirstCard.classList.remove('flip')
               divSecondCard.classList.remove('flip')
-            }, 800)
+            }, 600)
 
           }
         }
