@@ -1,28 +1,30 @@
- document.addEventListener('DOMContentLoaded', () => {
-
-
+document.addEventListener('DOMContentLoaded', () => {
+  
   const memoryGameWindow = document.querySelector('.memoryGameWindow')
   const gameVolumeSelect = document.getElementById('game')
   const btnStartGame = document.querySelector('.btnStartGame')
   const btnResetGame = document.querySelector('.btnResetGame')
+  const counterRounds = document.querySelector('.counter')
   let cardsArray = []
-  selectedVolume = 0
+  let selectedVolume = 0
   let picsArr = []
-  let frontImageArr = []
   let count = 0
   let firstCard = ''
   let secondCard = ''
+  let divFirstCard = ''
+  let divSecondCard = ''
+  let counter = 0
 
   const picsArray = [
-    {id: 01, img: './images/pics/01.jpg'},
-    {id: 02, img: './images/pics/02.jpg'},
-    {id: 03, img: './images/pics/03.jpg'},
-    {id: 04, img: './images/pics/04.jpg'},
-    {id: 05, img: './images/pics/05.jpg'},
-    {id: 06, img: './images/pics/06.jpg'},
-    {id: 07, img: './images/pics/07.jpg'},
-    {id: 08, img: './images/pics/08.jpg'},
-    {id: 09, img: './images/pics/09.jpg'},
+    {id: 1, img: './images/pics/01.jpg'},
+    {id: 2, img: './images/pics/02.jpg'},
+    {id: 3, img: './images/pics/03.jpg'},
+    {id: 4, img: './images/pics/04.jpg'},
+    {id: 5, img: './images/pics/05.jpg'},
+    {id: 6, img: './images/pics/06.jpg'},
+    {id: 7, img: './images/pics/07.jpg'},
+    {id: 8, img: './images/pics/08.jpg'},
+    {id: 9, img: './images/pics/09.jpg'},
     {id: 10, img: './images/pics/10.jpg'},
     {id: 11, img: './images/pics/11.jpg'},
     {id: 12, img: './images/pics/12.jpg'},
@@ -35,148 +37,147 @@
   ]
 
 ////////////////////////////// RANDOM PICS ///////////////////////////////////////
-let gamePics = picsArray.sort(() => {
-  return 0.5 - Math.random()
-})
+  let gamePics = picsArray.sort(() => {
+    return 0.5 - Math.random()
+  })
 
 ///////////////////////////// GAME SELECT CONTROL ////////////////////////////////
-  selectVolumeHandler = () => {
+  let selectVolumeHandler = () => {
     gameVolumeSelect.addEventListener('change', () => {
       selectedVolume = gameVolumeSelect.value
-      if (selectedVolume == 0) {
-        btnStartGame.disabled = true
-      } else { 
-        btnStartGame.disabled = false
-      }
+      btnStartGame.disabled = selectedVolume === 0
     })
   }
   selectVolumeHandler()
-  
+
 ////////////////////////// START BUTTON //////////////////////////////////////
-   btnStartGame.addEventListener('click', () => {
-     startGame() 
-   })
+  btnStartGame.addEventListener('click', () => {
+    startGame()
+  })
 
 ////////////////////////// RESET BUTTON //////////////////////////////////////
-   btnResetGame.addEventListener('click', () => {
+  btnResetGame.addEventListener('click', () => {
     fullResetGame()
     cardsArray = []
-   })
+  })
 
 ////////////////////////// GAME FULL RESET ///////////////////////////////////
-   fullResetGame = () => {
+  let fullResetGame = () => {
     btnStartGame.disabled = false
     gameVolumeSelect.disabled = false
     gameVolumeSelect.value = 0
     cardsArray.forEach((cardItem) => {
       cardItem.parentNode.removeChild(cardItem)
-     })
-     delete cardsArray
-     selectedVolume = 0
-     delete picsArr
-     resetGuesses()
-   }
+    })
+    cardsArray = []
+    selectedVolume = 0
+    picsArr = []
+    resetGuesses()
+    counter = 0
+    counterRounds.innerHTML = `Your rounds: ${counter}`
+  }
 
 
-   resetGuesses = () => {
-     firstCard = ''
-     secondCard = ''
-     count = 0
-   }
+  let resetGuesses = () => {
+    firstCard = ''
+    secondCard = ''
+    count = 0
+  }
 
 /////////////////////////// GAME START ///////////////////////////////////////
-   startGame = () => {
+  let startGame = () => {
     btnStartGame.disabled = true
-    gameVolumeSelect.disabled = true    
+    gameVolumeSelect.disabled = true
     for (let i = 0; i < selectedVolume; i++) {
       const card = document.createElement('div')
+      card.className = 'card'
       const frontImage = document.createElement('img')
       frontImage.classList = 'front-face'
       const backImage = document.createElement('img')
-      backImage.className = 'back-face'   
-      frontImageArr.push(frontImage)
+      backImage.className = 'back-face'
+
       if (selectedVolume == 16) {
         picsArr = gamePics.slice(0, 8)
-        card.className = 'card16'
+        card.style.width = 'calc(22% + 10px)'
+        card.style.height = 'calc(24%)'
+        card.style.marginBottom = '5px'
+        memoryGameWindow.style.width = '1000px'
       } else if (selectedVolume == 24) {
         picsArr = gamePics.slice(0, 12)
-        card.className = 'card24'
+        card.style.width = 'calc(16.1%)'
+        card.style.height = 'calc(22%)'
+        memoryGameWindow.style.width = '1200px'
       } else if (selectedVolume == 36) {
         picsArr = gamePics.slice(0, 18)
-        card.className = 'card36'
+        card.style.width = 'calc(15% + 10px)'
+        card.style.height = 'calc(16%)'
+        memoryGameWindow.style.width = '1000px'
       }
       backImage.src = './images/back.jpg'
       cardsArray.push(card)
-      card.appendChild(backImage) 
-      card.appendChild(frontImage) 
-      
+      card.appendChild(backImage)
+      card.appendChild(frontImage)
+
     }
-    
+
     picsArr = picsArr.concat(picsArr)
 
     cardsArray.forEach((item, index) => {
       item.children[1].src = picsArr[index].img
       item.children[1].dataset.id = picsArr[index].id
-      
-
 
       item.addEventListener('click', (e) => {
         if (count < 2) {
           count++
           if (count === 1) {
+            divFirstCard = item
             firstCard = e.target.nextSibling.dataset.id
-            flipCard(item)
-            console.log(firstCard);
-          } else { 
+          } else {
+            divSecondCard = item
             secondCard = e.target.nextSibling.dataset.id
-            console.log(secondCard);
           }
-
-
 
           if (firstCard && secondCard) {
             if (firstCard === secondCard) {
-              console.log('found');
+              console.log('found')
+              divFirstCard.classList.add('found')
+              divSecondCard.classList.add('found')
             }
             resetGuesses()
-            removeClassFlip(item)
-            
-            
+            counter++
+            counterRounds.innerHTML = `Your rounds: ${counter}`
+
+            setTimeout(() => {
+              divFirstCard.classList.remove('flip')
+              divSecondCard.classList.remove('flip')
+            }, 400)
+
           }
         }
       })
     })
-
-    
-
-
 
 
 /////////////////////////// PICTURES SORT ////////////////////////////////////////
     cardsArray.sort(() => {
       return 0.5 - Math.random()
     })
-      
+
 ////////////////////////// CARDS ADDING FROM MASSIVE TO GAME WINDOW //////////////      
     cardsArray.forEach((cardItem) => {
-         memoryGameWindow.appendChild(cardItem)
-        })
+      memoryGameWindow.appendChild(cardItem)
+    })
 ////////////////////////////// FLIP CARDS ////////////////////////////////////////
-    // cardsArray.forEach(card => card.addEventListener('click', flipCard))
+    cardsArray.forEach(card => card.addEventListener('click', flipCard))
 
-   }
+
+  }
 
 ///////////////////////////// FLIP CARDS FUNCTION //////////////////////////////
-   function flipCard(item) {
-     item.classList.add('flip')
-     console.log(item.classList[1]);
-     
-   }
-
-   function removeClassFlip(item) {
-     item.classList[1].remove('flip')
-   }
-   
+  function flipCard() {
+    this.classList.add('flip')
+    console.log(this.classList[1])
+  }
 
 
- })
+})
