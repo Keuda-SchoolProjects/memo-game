@@ -160,7 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
               divFirstCard.classList.remove('flip')
               divSecondCard.classList.remove('flip')
+<<<<<<< HEAD
             }, 500)
+=======
+            }, 600)
+>>>>>>> 687d541a7993c3a6ec6b773ec262b619e56b32a3
 
           }
         }
