@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  let preloadedState = document.createElement('script')
+  preloadedState.src = 'script.js'
+  document.body.appendChild(preloadedState)
   
   const memoryGameWindow = document.querySelector('.memoryGameWindow')
   const gameVolumeSelect = document.getElementById('game')
@@ -131,26 +135,32 @@ document.addEventListener('DOMContentLoaded', () => {
           count++
           if (count === 1) {
             divFirstCard = item
+            divFirstCard.style.pointerEvents = 'none'
             firstCard = e.target.nextSibling.dataset.id
           } else {
             divSecondCard = item
+            divSecondCard.style.pointerEvents = 'none'
             secondCard = e.target.nextSibling.dataset.id
           }
 
           if (firstCard && secondCard) {
             if (firstCard === secondCard) {
-              console.log('found')
               divFirstCard.classList.add('found')
               divSecondCard.classList.add('found')
+              setTimeout(() => {
+                divSecondCard.style.pointerEvents = 'none'
+                divFirstCard.style.pointerEvents = 'none'
+              },100)
             }
             resetGuesses()
+            divFirstCard.style.pointerEvents = 'auto'
+            divSecondCard.style.pointerEvents = 'auto'
             counter++
             counterRounds.innerHTML = `Your rounds: ${counter}`
-
             setTimeout(() => {
               divFirstCard.classList.remove('flip')
               divSecondCard.classList.remove('flip')
-            }, 400)
+            }, 500)
 
           }
         }
