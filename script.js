@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnStartGame = document.querySelector('.btnStartGame')
   const btnResetGame = document.querySelector('.btnResetGame')
   const counterRounds = document.querySelector('.counter')
-  let secondsStart = 0
   let cardsArray = []
   let selectedVolume = 0
   let picsArr = []
@@ -84,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
     resetGuesses()
     counter = 0
     counterRounds.innerHTML = `Your rounds: ${counter}`
-    memoryGameWindow.style.pointerEvents = 'auto'
   }
 
   let resetGuesses = () => {
@@ -157,10 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
               }, 100)
             }
             resetGuesses()
-            setTimeout(() => {
               divFirstCard.style.pointerEvents = 'auto'
               divSecondCard.style.pointerEvents = 'auto'
-            }, 900)
             counter++
             counterRounds.innerHTML = `Your rounds: ${counter}`
             setTimeout(() => {
