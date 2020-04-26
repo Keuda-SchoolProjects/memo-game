@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnStartGame = document.querySelector('.btnStartGame')
   const btnResetGame = document.querySelector('.btnResetGame')
   const counterRounds = document.querySelector('.counter')
+  let secondsStart = 0
   let cardsArray = []
   let selectedVolume = 0
   let picsArr = []
@@ -49,7 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let selectVolumeHandler = () => {
     gameVolumeSelect.addEventListener('change', () => {
       selectedVolume = gameVolumeSelect.value
-      btnStartGame.disabled = selectedVolume === 0
+      if (selectedVolume !== 0) {
+        btnStartGame.disabled = false
+      } else {
+        btnStartGame.disabled = true
+      }
     })
   }
   selectVolumeHandler()
@@ -79,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     resetGuesses()
     counter = 0
     counterRounds.innerHTML = `Your rounds: ${counter}`
+    memoryGameWindow.style.pointerEvents = 'auto'
   }
-
 
   let resetGuesses = () => {
     firstCard = ''
@@ -99,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
       frontImage.classList = 'front-face'
       const backImage = document.createElement('img')
       backImage.className = 'back-face'
-
       if (selectedVolume == 16) {
         picsArr = gamePics.slice(0, 8)
         card.style.width = 'calc(22% + 10px)'
@@ -129,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsArray.forEach((item, index) => {
       item.children[1].src = picsArr[index].img
       item.children[1].dataset.id = picsArr[index].id
-
       item.addEventListener('click', (e) => {
         if (count < 2) {
           count++
@@ -147,14 +150,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (firstCard === secondCard) {
               divFirstCard.classList.add('found')
               divSecondCard.classList.add('found')
+              foundClassControl()
               setTimeout(() => {
                 divSecondCard.style.pointerEvents = 'none'
                 divFirstCard.style.pointerEvents = 'none'
-              },100)
+              }, 100)
             }
             resetGuesses()
-            divFirstCard.style.pointerEvents = 'auto'
-            divSecondCard.style.pointerEvents = 'auto'
+            setTimeout(() => {
+              divFirstCard.style.pointerEvents = 'auto'
+              divSecondCard.style.pointerEvents = 'auto'
+            }, 900)
             counter++
             counterRounds.innerHTML = `Your rounds: ${counter}`
             setTimeout(() => {
@@ -166,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     })
 
-
 /////////////////////////// PICTURES SORT ////////////////////////////////////////
     cardsArray.sort(() => {
       return 0.5 - Math.random()
@@ -176,16 +181,40 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsArray.forEach((cardItem) => {
       memoryGameWindow.appendChild(cardItem)
     })
+
 ////////////////////////////// FLIP CARDS ////////////////////////////////////////
     cardsArray.forEach(card => card.addEventListener('click', flipCard))
 
+//////////////////////// FUNCTION FOUNDS CARDS CONTROL ///////////////////////////////////
+    function foundClassControl() {
+      const allFoundsDivs = document.querySelectorAll('.found')
+      if (allFoundsDivs.length === +selectedVolume) {
+        popupWindow()
+      }
+    }
+  }
 
+/////////////////////////////// POPUP WINDOW FUNCTION ///////////////////////////////////////
+  function popupWindow() {
+    const popupWindow = document.querySelector('.popupWindow')
+    popupWindow.style.visibility = 'visible'
+    setTimeout(() => {
+      popupWindow.style.visibility = 'hidden'
+      popupWindow.style.opacity = '0'
+      popupWindow.style.transition = 'all 5s'
+    }, 2500)
+    popupWindow.style.opacity = '1'
+    popupWindow.style.transition = 'none'
+    setTimeout(() => {
+      let lastGameCounter = document.querySelector('.lastGameCounter')
+      lastGameCounter.innerHTML = `Last game rounds: ${counter}`
+      fullResetGame()
+    }, 500)
   }
 
 ///////////////////////////// FLIP CARDS FUNCTION //////////////////////////////
   function flipCard() {
     this.classList.add('flip')
-    console.log(this.classList[1])
   }
 
 
