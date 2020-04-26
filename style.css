@@ -20,7 +20,7 @@ body {
     grid-column: 2/2;
     width: 1000px;
     height: 850px;
-    margin: 3% auto;
+    margin: 2% auto;
     display: flex;
     flex-wrap: wrap;
     perspective: 1000px;
@@ -34,7 +34,7 @@ body {
     cursor: pointer;
     transform: scale(1);
     transform-style: preserve-3d;
-    transition: transform .5s;
+    transition: transform .2s;
     box-sizing: border-box;
 }
 
