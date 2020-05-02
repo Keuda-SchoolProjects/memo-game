@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let preloadedState = document.createElement('script')
   preloadedState.src = 'script.js'
   document.body.appendChild(preloadedState)
-  
+
   const memoryGameWindow = document.querySelector('.memoryGameWindow')
   const gameVolumeSelect = document.getElementById('game')
   const btnStartGame = document.querySelector('.btnStartGame')
   const btnResetGame = document.querySelector('.btnResetGame')
   const counterRounds = document.querySelector('.counter')
+  const timer = document.querySelector('.timer')
   let cardsArray = []
   let selectedVolume = 0
   let picsArr = []
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let divFirstCard = ''
   let divSecondCard = ''
   let counter = 0
+  let timerCounter = 0
 
   const picsArray = [
     {id: 1, img: './images/pics/01.jpg'},
@@ -71,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ////////////////////////// GAME FULL RESET ///////////////////////////////////
   let fullResetGame = () => {
+    stopTimer()
     btnStartGame.disabled = false
     gameVolumeSelect.disabled = false
     gameVolumeSelect.value = 0
@@ -83,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     resetGuesses()
     counter = 0
     counterRounds.innerHTML = `Your rounds: ${counter}`
+    timerCounter = 0
+    timer.textContent = `Your time is: ${timerCounter}`
+
   }
 
   let resetGuesses = () => {
@@ -93,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /////////////////////////// GAME START ///////////////////////////////////////
   let startGame = () => {
+    startTimer()
     btnStartGame.disabled = true
     gameVolumeSelect.disabled = true
     for (let i = 0; i < selectedVolume; i++) {
@@ -125,20 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
       card.appendChild(frontImage)
 
     }
-
     picsArr = picsArr.concat(picsArr)
 
     cardsArray.forEach((item, index) => {
       item.children[1].src = picsArr[index].img
       item.children[1].dataset.id = picsArr[index].id
-      item.addEventListener('click', (e) => {
+      item.addEventListener('mousedown', (e) => {
         if (count < 2) {
           count++
           if (count === 1) {
             divFirstCard = item
             divFirstCard.style.pointerEvents = 'none'
             firstCard = e.target.nextSibling.dataset.id
-          } else {
+
+          } else if(count === 2) {
             divSecondCard = item
             divSecondCard.style.pointerEvents = 'none'
             secondCard = e.target.nextSibling.dataset.id
@@ -155,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
               }, 100)
             }
             resetGuesses()
-              divFirstCard.style.pointerEvents = 'auto'
-              divSecondCard.style.pointerEvents = 'auto'
+            divFirstCard.style.pointerEvents = 'auto'
+            divSecondCard.style.pointerEvents = 'auto'
             counter++
             counterRounds.innerHTML = `Your rounds: ${counter}`
             setTimeout(() => {
@@ -179,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 ////////////////////////////// FLIP CARDS ////////////////////////////////////////
-    cardsArray.forEach(card => card.addEventListener('click', flipCard))
+    cardsArray.forEach(card => card.addEventListener('mousedown', flipCard))
 
 //////////////////////// FUNCTION FOUNDS CARDS CONTROL ///////////////////////////////////
     function foundClassControl() {
@@ -192,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /////////////////////////////// POPUP WINDOW FUNCTION ///////////////////////////////////////
   function popupWindow() {
+    stopTimer()
     const popupWindow = document.querySelector('.popupWindow')
     popupWindow.style.visibility = 'visible'
     setTimeout(() => {
@@ -203,7 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
     popupWindow.style.transition = 'none'
     setTimeout(() => {
       let lastGameCounter = document.querySelector('.lastGameCounter')
+      let lastGameTimer = document.querySelector('.lastGameTimer')
       lastGameCounter.innerHTML = `Last game rounds: ${counter}`
+      lastGameTimer.textContent = `Last game time: ${timerCounter}`
       fullResetGame()
     }, 500)
   }
@@ -211,6 +221,22 @@ document.addEventListener('DOMContentLoaded', () => {
 ///////////////////////////// FLIP CARDS FUNCTION //////////////////////////////
   function flipCard() {
     this.classList.add('flip')
+  }
+
+/////////////////////////////// GAME TIMER /////////////////////////////////////
+  let startTimer = () => {
+    window.timerId = setInterval(() => {
+      timerCounter++
+      if (timerCounter < 10) {
+        timer.textContent = `Your time is: 0${timerCounter}`
+      } else {
+        timer.textContent = `Your time is: ${timerCounter}`
+      }
+    }, 1000)
+  }
+
+  let stopTimer = () => {
+    clearInterval(window.timerId)
   }
 
 
