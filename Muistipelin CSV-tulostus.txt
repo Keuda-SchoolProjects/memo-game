@@ -1,0 +1,86 @@
+
+MySQL tulostaa CSV-tiedostoon:
+
+
+MySQL Command Line  (GOOGLE-haku: mysql output csv)
+
+Log in to MySQL as the root user or a user with privileges to the database containing the data you want to export. For example, type "mysql -u root -p" (without the quote marks) and enter your password when prompted. Create a MySQL SELECT query to select the data you want to output to CSV.
+
+- - - - - -
+
+https://smallbusiness.chron.com/output-csv-mysql-46200.html
+
+PhpMyAdmin
+1. Launch a browser, navigate to the phpMyAdmin tool on the website and sign in as a user with rights to the database containing the data you want to output. For example, type:
+http://www.example.com/phpmyadmin
+
+2. Click the "Databases" tab, then click the name of the database containing the data you want to export -- for example, "orders."
+
+3. Click the "Export" tab and select "CSV" in the Export box in the left-hand column. Click to select a table you want to export. Hold down the "Shift" key and click to select multiple tables.
+4. Adjust the options displayed on the right according to your preferences. For example, to use a comma to delineate fields, change the semicolon to a comma in the "Fields terminated by" option.
+5. Click "Go" in the lower right corner of the screen. Save the output file to disk when prompted. Open the file with a text editor such as Notepad or a spreadsheet program such as Excel to confirm the data was properly output to CSV. Import the data into the related systems such as accounting and inventory management.
+MySQL Command Line
+1. Log in to MySQL as the root user or a user with privileges to the database containing the data you want to export. For example, type "mysql -u root -p" (without the quote marks) and enter your password when prompted.
+2. Create a MySQL SELECT query to select the data you want to output to CSV. Specify the output file and the four CSV options: "FIELDS TERMINATED BY" specifies the character used between fields; "ENCLOSED BY" defines the character that surrounds each value; "ESCAPED BY" identifies the character that prefixes non-printable characters; and "LINES TERMINATED BY" specifies the new-line character. For example, type:
+SELECT id, name, email INTO OUTFILE 'export.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\' LINES TERMINATED BY '\n' FROM members;
+
+3. Open the CSV file in a text editor such as Notepad or with a spreadsheet program such as Microsoft Excel to confirm that data was correctly exported to CSV. Import the data into the appropriate systems such as accounting or inventory management.
+Tip
+MySQL surrounds all values with quotes by default. To include quotes only around values where it's required, such as strings with spaces, specify "OPTIONALLY ENCLOSED BY " instead of "ENCLOSED BY" in the options in the MySQL command line.
+Warning
+PhpMyAdmin exports all fields in a table to CSV. Use the MySQL command line to output a subset of fields in a table to CSV.
+
+- - - - -
+
+From http://www.tech-recipes.com/rx/1475/save-mysql-query-results-into-a-text-or-csv-file/
+
+SELECT order_id,product_name,qty
+FROM orders
+WHERE foo = 'bar'
+INTO OUTFILE '/var/lib/mysql-files/orders.csv'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n';
+Using this command columns names will not be exported.
+
+Also note that /var/lib/mysql-files/orders.csv will be on the server that is running MySQL. The user that the MySQL process is running under must have permissions to write to the directory chosen, or the command will fail.
+
+If you want to write output to your local machine from a remote server (especially a hosted or virtualize machine such as Heroku or Amazon RDS), this solution is not suitable.
+
+- - - - -
+
+https://www.mysqltutorial.org/mysql-export-table-to-csv/
+
+MySQL provides an easy way to export the query’s result into a CSV file that resides in the database server.
+
+Before exporting data, you must ensure that:
+
+The MySQL server’s process has the write access to the target folder that contains the target CSV file.
+The target CSV file must not exist.
+The following query selects cancelled orders from the  orders table:
+
+SELECT 
+    orderNumber, status, orderDate, requiredDate, comments
+FROM
+    orders
+WHERE
+    status = 'Cancelled';
+
+To export this result set into a CSV file, you add some clauses to the query above as follows:
+
+SELECT 
+    orderNumber, status, orderDate, requiredDate, comments
+FROM
+    orders
+WHERE
+    status = 'Cancelled' 
+INTO OUTFILE 'C:/tmp/cancelled_orders.csv' 
+FIELDS ENCLOSED BY '"' 
+TERMINATED BY ';' 
+ESCAPED BY '"' 
+LINES TERMINATED BY '\r\n';
+The statement created a CSV file named  cancelled_orders.csv in the  C:\tmp folder that contains the result set.
+
+The CSV file contains lines of rows in the result set. Each line is terminated by a sequence of carriage return and a line feed character specified by the LINES TERMINATED BY '\r\n' clause. Each line contains values of each column of the row in the result set.
+
+Each value is enclosed by double quotation marks indicated by  FIELDS ENCLOSED BY '”' clause. This prevents the value that may contain a comma (,) will be interpreted as the field separator. When enclosing the values by the double quotation marks, the commas inside the value are not recognized as the field separators.
