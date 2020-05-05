@@ -114,17 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.width = 'calc(22% + 10px)'
         card.style.height = 'calc(24%)'
         card.style.marginBottom = '5px'
-        memoryGameWindow.style.width = '1000px'
       } else if (selectedVolume == 24) {
         picsArr = gamePics.slice(0, 12)
         card.style.width = 'calc(16.1%)'
         card.style.height = 'calc(22%)'
-        memoryGameWindow.style.width = '1200px'
       } else if (selectedVolume == 36) {
         picsArr = gamePics.slice(0, 18)
         card.style.width = 'calc(15% + 10px)'
         card.style.height = 'calc(16%)'
-        memoryGameWindow.style.width = '1000px'
       }
       backImage.src = './images/back.jpg'
       cardsArray.push(card)
@@ -144,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
             divFirstCard = item
             divFirstCard.style.pointerEvents = 'none'
             firstCard = e.target.nextSibling.dataset.id
-
           } else if(count === 2) {
             divSecondCard = item
             divSecondCard.style.pointerEvents = 'none'
